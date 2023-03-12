@@ -5,6 +5,8 @@ VisualStudioVersion = 25.0.1705.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "product_service", "product_service\product_service.csproj", "{A2696D66-D612-4B7D-89CD-7C79449B5FE9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{08154340-5046-429B-A612-0FFC5B0C79AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
