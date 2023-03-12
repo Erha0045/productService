@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Application
+namespace product_service
 {
 	public class Category
 	{
