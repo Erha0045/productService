@@ -1,30 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using product_service.Repo;
 
 namespace product_service.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public class WineController : ControllerBase
+
+public class ProductsController : Controller
 {
-   
-    private readonly ILogger<WineController> _logger;
+ 
+        private readonly ProductQueries productQueries;
 
-    public WineController(ILogger<WineController> logger)
-    {
-        _logger = logger;
-    }
 
-    [HttpGet(Name = "GetWine")]
-    public IEnumerable<Wine> Get()
-    {
-       /* return Enumerable.Range(1, 5).Select(index => new Wine
+        public ProductsController(ProductQueries productQueries)
         {
-            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
-       */
-    }
+            this.productQueries = productQueries;
+        }
+     
+
+        // GET: Products
+        public async Task<IActionResult> Index()
+        {
+            return View(await productQueries.ListProducts());
+        }
+   
 }
 
