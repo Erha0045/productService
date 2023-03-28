@@ -3,18 +3,18 @@ using product_service.Data;
 using System.Collections.Generic;
 namespace product_service.Repo
 {
-    public class ProductQueries
+    public class WineQueries
     {
         private readonly ProductContext repository;
 
-        public ProductQueries(ProductContext repository)
+        public WineQueries(ProductContext repository)
         {
             this.repository = repository;
         }
 
-        public async Task<List<Wine>> ListProducts()
+        public async Task<String> ListProducts()
         {
-            var result = await repository.Wine
+            /* var result = await repository.Wine
                 .Where(wine => !wine.Removed.Any())
                 .Select(wine => new
                 {
@@ -27,17 +27,18 @@ namespace product_service.Repo
 
             return result
                 .Select(row => MapWineModel(row.ProductGuid, row.Wine))
-                .ToList();
+                .ToList(); */
+                return "test";
         }
 
-           private static Wine MapWineModel(Guid productGuid, Wine wine)
+      /*   private static Wine MapWineModel(Guid productGuid, Wine wine)
         {
             return new Wine
             {
                 ProductGuid = productGuid,
-                Name = wine?.Name        
+                Name = wine?.Name
             };
-        }
+        } */
 
     }
 }

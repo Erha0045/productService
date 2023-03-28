@@ -1,9 +1,9 @@
 ﻿using System;
 namespace product_service
 {
-	public interface IProduct
-	{
-        public int WineId { get; set; }
+    public interface IProduct
+    {
+        public int Id { get; set; }
 
         public string Name { get; set; }
 

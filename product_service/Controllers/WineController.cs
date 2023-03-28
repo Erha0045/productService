@@ -3,24 +3,28 @@ using product_service.Repo;
 
 namespace product_service.Controllers;
 
-
-public class ProductsController : Controller
+// Tilføjet senere end mødet
+[Route("api/[controller]")]
+[ApiController]
+public class WineController : Controller
 {
- 
-        private readonly ProductQueries productQueries;
+
+    private readonly WineQueries _productQueries;
 
 
-        public ProductsController(ProductQueries productQueries)
-        {
-            this.productQueries = productQueries;
-        }
-     
+    public WineController(WineQueries productQueries)
+    {
+        _productQueries = productQueries;
+    }
 
-        // GET: Products
-        public async Task<IActionResult> Index()
-        {
-            return View(await productQueries.ListProducts());
-        }
-   
+
+    // GET: Products
+    [HttpGet]
+    //[HttpGet("Wine")]
+    public async Task<IActionResult> Index()
+    {
+        return View(await _productQueries.ListProducts());
+    }
+
 }
 

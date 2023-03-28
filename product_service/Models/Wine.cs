@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace product_service
 {
-	public class Wine : IProduct
-	{
+    public class Wine : IProduct
+    {
         public Guid ProductGuid { get; set; }
-        public int WineId { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get ; set; }
+        public string Description { get; set; }
         public decimal Price { get; set; }
         public string Origin { get; set; }
         public int AlcoholPercentage { get; set; }
