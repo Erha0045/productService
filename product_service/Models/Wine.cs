@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
 
 namespace product_service
 {
@@ -18,9 +19,7 @@ namespace product_service
         public string Size { get; set; }
         public Category Category { get; set; }
         public DateTime ModifiedDate { get; set; }
-
         public ICollection<WineRemoved> Removed { get; set; } = new List<WineRemoved>();
-
         public ICollection<Wine> WineDes { get; set; } = new List<Wine>();
     }
 

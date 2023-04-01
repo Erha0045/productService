@@ -1,44 +1,47 @@
 using Microsoft.EntityFrameworkCore;
 using product_service.Data;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Linq;
+
 namespace product_service.Repo
 {
     public class WineQueries
     {
-        private readonly ProductContext repository;
+        private readonly ProductContext _repository;
 
         public WineQueries(ProductContext repository)
         {
-            this.repository = repository;
+            this._repository = repository;
         }
 
-        public async Task<String> ListProducts()
+        public async Task<IEnumerable<Wine>> ListProducts()
         {
-            /* var result = await repository.Wine
+            var result = await _repository.Wine
                 .Where(wine => !wine.Removed.Any())
-                .Select(wine => new
-                {
-                    wine.ProductGuid,
-                    Wine = wine.WineDes
-                        .OrderByDescending(d => d.ModifiedDate)
-                        .FirstOrDefault()
-                })
+                .Select(
+                    wine =>
+                        new
+                        {
+                            wine.ProductGuid,
+                            Wine = wine.WineDes
+                                .OrderByDescending(d => d.ModifiedDate)
+                                .FirstOrDefault()
+                        }
+                )
                 .ToListAsync();
 
-            return result
-                .Select(row => MapWineModel(row.ProductGuid, row.Wine))
-                .ToList(); */
-                return "test";
+            return result.Select(row => MapWineModel(row.ProductGuid, row.Wine)).ToList();
         }
 
-      /*   private static Wine MapWineModel(Guid productGuid, Wine wine)
+        public async Task<Wine> GetWine(Guid productGuid)
         {
-            return new Wine
-            {
-                ProductGuid = productGuid,
-                Name = wine?.Name
-            };
-        } */
+            return await _repository.Wine.FirstOrDefaultAsync(w => w.ProductGuid == productGuid);
+        }
 
+        private static Wine MapWineModel(Guid productGuid, Wine wine)
+        {
+            return new Wine { ProductGuid = productGuid, Name = wine?.Name, };
+        }
     }
 }
