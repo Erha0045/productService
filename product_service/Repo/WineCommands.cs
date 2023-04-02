@@ -23,7 +23,7 @@ namespace product_service.Repo
             // Create the new wine
             wine.ProductGuid = Guid.NewGuid();
             wine.ModifiedDate = DateTime.Now;
-            _repository.Wine.Add(wine);
+            _repository.WineProducts.Add(wine);
             await _repository.SaveChangesAsync();
 
             // Publish a message to RabbitMQ with the new wine information
@@ -44,10 +44,10 @@ namespace product_service.Repo
         // Delete Wine
         public async Task DeleteWine(Guid productGuid)
         {
-            var wine = await _repository.Wine.FindAsync(productGuid);
+            var wine = await _repository.WineProducts.FindAsync(productGuid);
             if (wine != null)
             {
-                _repository.Wine.Remove(wine);
+                _repository.WineProducts.Remove(wine);
                 await _repository.SaveChangesAsync();
             }
         }

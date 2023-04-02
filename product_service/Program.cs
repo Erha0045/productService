@@ -7,11 +7,15 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 
 // Configure the database connection for MySQL
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")?
+    .Replace("MYSQL_USER", Environment.GetEnvironmentVariable("MYSQL_USER"))
+    .Replace("MYSQL_PASSWORD", Environment.GetEnvironmentVariable("MYSQL_PASSWORD"));
+
 builder.Services.AddDbContext<ProductContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // RabbitMQ
 builder.Services.Configure<RabbitMQConfiguration>(builder.Configuration.GetSection("RabbitMQ"));
@@ -21,6 +25,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<WineQueries>();
+builder.Services.AddScoped<WineCommands>();
 
 var app = builder.Build();
 

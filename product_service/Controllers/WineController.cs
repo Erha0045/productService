@@ -22,7 +22,6 @@ public class WineController : Controller
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-        //return View(await _productQueries.ListProducts());
         return Ok(await _productQueries.ListProducts());
     }
 
