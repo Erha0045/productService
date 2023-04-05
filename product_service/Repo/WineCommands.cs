@@ -44,7 +44,9 @@ namespace product_service.Repo
         // Delete Wine
         public async Task DeleteWine(Guid productGuid)
         {
-            var wine = await _repository.WineProducts.FindAsync(productGuid);
+
+
+            var wine = await _repository.WineProducts.FirstOrDefaultAsync(i=>i.ProductGuid==productGuid);
             if (wine != null)
             {
                 _repository.WineProducts.Remove(wine);

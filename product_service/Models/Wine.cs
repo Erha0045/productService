@@ -10,8 +10,11 @@ namespace product_service
     {
         [Column("wine_id")]
         public int Id { get; set; }
+        
         [Column("product_uuid")]
         public Guid ProductGuid { get; set; }
+
+
         [Column("wine_name")]
         public string Name { get; set; }
         [Column("wine_description")]
