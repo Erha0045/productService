@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using product_service.Repo;
 using System.Threading.Tasks;
 
@@ -19,7 +20,9 @@ public class WineController : Controller
     }
 
     //[HttpGet("Wine")]
+    
     [HttpGet]
+    [EnableCors("AllowOrigin")]
     public async Task<IActionResult> Index()
     {
         return Ok(await _productQueries.ListProducts());

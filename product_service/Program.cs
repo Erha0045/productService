@@ -5,7 +5,16 @@ using DotNetEnv;
 
 Env.Load();
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+ #region Allow-Orgin
+            builder.Services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
+            #endregion
+
 
 // Add services to the container
 
@@ -26,6 +35,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<WineQueries>();
 builder.Services.AddScoped<WineCommands>();
+
+
 
 var app = builder.Build();
 
