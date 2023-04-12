@@ -22,7 +22,7 @@ public class WineController : Controller
     //[HttpGet("Wine")]
     
     [HttpGet]
-    [EnableCors("AllowOrigin")]
+    [EnableCors]
     public async Task<IActionResult> Index()
     {
         return Ok(await _productQueries.ListProducts());
@@ -43,6 +43,7 @@ public class WineController : Controller
 
     // POST: api/Wine
     [HttpPost]
+    [EnableCors]
     public async Task<IActionResult> CreateWine([FromBody] Wine wine)
     {
         var createdWine = await _productCommands.CreateWine(wine);

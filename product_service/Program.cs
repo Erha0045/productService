@@ -8,12 +8,25 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
- #region Allow-Orgin
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("*").AllowAnyHeader().WithMethods("GET", "POST");
+        });
+});
+
+
+ /*#region Allow-Orgin
             builder.Services.AddCors(c =>
             {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
-            });
-            #endregion
+            }
+            );
+            #endregion*/
+
 
 
 // Add services to the container
@@ -47,11 +60,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
-
 app.UseRouting();
 
 app.UseCors();
+
+//app.UseCors("AllowOrigin");
 
 app.UseAuthorization();
 
