@@ -2,6 +2,7 @@
 using product_service.Data;
 using product_service.Repo;
 using DotNetEnv;
+using product_service.RabbitMQ;
 
 Env.Load();
 
@@ -41,6 +42,7 @@ builder.Services.AddDbContext<ProductContext>(options =>
 
 // RabbitMQ
 builder.Services.Configure<RabbitMQConfiguration>(builder.Configuration.GetSection("RabbitMQ"));
+builder.Services.AddSingleton<RabbitMQProducer>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

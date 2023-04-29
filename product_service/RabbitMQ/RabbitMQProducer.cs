@@ -13,8 +13,8 @@ namespace product_service.RabbitMQ
             _rabbitMQConfig = rabbitMQConfig;
         }
 
-        public void PublishMessage<T>(T message)
-            where T : class
+        public void PublishMessage<T>(T message, string routingKey)
+    where T : class
         {
             var factory = new ConnectionFactory
             {
@@ -27,20 +27,14 @@ namespace product_service.RabbitMQ
             {
                 using (var channel = connection.CreateModel())
                 {
-                    channel.QueueDeclare(
-                        queue: _rabbitMQConfig.QueueName,
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null
-                    );
+                    channel.ExchangeDeclare(_rabbitMQConfig.ExchangeName, ExchangeType.Topic, durable: true);
 
                     var json = JsonSerializer.Serialize(message);
                     var body = Encoding.UTF8.GetBytes(json);
 
                     channel.BasicPublish(
-                        exchange: "",
-                        routingKey: _rabbitMQConfig.QueueName,
+                        exchange: _rabbitMQConfig.ExchangeName,
+                        routingKey: routingKey,
                         basicProperties: null,
                         body: body
                     );

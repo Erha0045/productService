@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using product_service.RabbitMQ;
 using product_service.Repo;
 using System.Threading.Tasks;
 
@@ -12,15 +13,17 @@ public class WineController : Controller
 {
     private readonly WineQueries _productQueries;
     private readonly WineCommands _productCommands;
+    private readonly RabbitMQProducer _rabbitMQProducer;
 
-    public WineController(WineQueries queries, WineCommands commands)
+    public WineController(WineQueries queries, WineCommands commands, RabbitMQProducer rabbitMQProducer)
     {
         _productQueries = queries;
         _productCommands = commands;
+        _rabbitMQProducer = rabbitMQProducer;
     }
 
     //[HttpGet("Wine")]
-    
+
     [HttpGet]
     [EnableCors]
     public async Task<IActionResult> Index()
@@ -47,6 +50,10 @@ public class WineController : Controller
     public async Task<IActionResult> CreateWine([FromBody] Wine wine)
     {
         var createdWine = await _productCommands.CreateWine(wine);
+
+        // Publish the message to RabbitMQ
+        _rabbitMQProducer.PublishMessage(createdWine, "wine.create");
+
         return CreatedAtAction(
             nameof(GetWine),
             new { productGuid = createdWine.ProductGuid },
@@ -64,6 +71,10 @@ public class WineController : Controller
         }
 
         var updatedWine = await _productCommands.UpdateWine(wine);
+
+        // Publish the message to RabbitMQ
+        _rabbitMQProducer.PublishMessage(updatedWine, "wine.update");
+
         return NoContent();
     }
 
@@ -72,6 +83,10 @@ public class WineController : Controller
     public async Task<IActionResult> DeleteWine(Guid productGuid)
     {
         await _productCommands.DeleteWine(productGuid);
+
+        // Publish the message to RabbitMQ
+        _rabbitMQProducer.PublishMessage(new { ProductGuid = productGuid }, "wine.delete");
+
         return NoContent();
     }
 }
